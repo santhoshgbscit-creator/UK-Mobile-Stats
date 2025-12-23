@@ -1,66 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>UK Mobile Network Analysis Report</title>
+  <title>UK Mobile Network Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      line-height: 1.6;
-      background-color: #f9f9f9;
-    }
-    h1, h2 {
-      color: #2c3e50;
-    }
-    button {
-      margin-right: 10px;
-      margin-bottom: 20px;
-      padding: 6px 12px;
-      cursor: pointer;
-      background-color: #3498db;
-      color: white;
-      border: none;
-      border-radius: 4px;
-    }
-    button:hover {
-      background-color: #2980b9;
-    }
-    .table-container {
-      overflow-x: auto; /* Horizontal scroll */
-      margin-bottom: 30px;
-    }
-    table {
-      border-collapse: collapse;
-      width: 1000px; /* Make table wide for scrolling */
-      min-width: 600px;
-    }
-    th, td {
-      border: 1px solid #2c3e50;
-      padding: 8px;
-      text-align: left;
-    }
-    th {
-      background-color: #3498db;
-      color: white;
-    }
-    tr:nth-child(even) {
-      background-color: #ecf0f1;
-    }
-    tr:hover {
-      background-color: #d6eaf8;
-    }
-    .analysis {
-      max-width: 1000px;
-      background-color: #ffffff;
-      padding: 15px;
-      border-radius: 5px;
-      box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
-    }
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; line-height:1.6; }
+    h1, h2 { color: #2c3e50; }
+    button { margin-right:10px; padding:6px 12px; background:#3498db; color:white; border:none; border-radius:6px; cursor:pointer; transition: 0.3s; }
+    button:hover { background-color:#2980b9; }
+    .table-container { overflow-x:auto; margin-bottom:30px; }
+    table { border-collapse: collapse; width:1000px; min-width:600px; }
+    th, td { border:1px solid #2c3e50; padding:10px; text-align:left; }
+    th { background-color:#2980b9; color:white; }
+    tr:nth-child(even) { background-color:#ecf0f1; }
+    tr:hover { background-color:#d6eaf8; transition:0.3s; }
+    tr.highlight { background-color:#f1c40f; font-weight:bold; }
+    .analysis { max-width:1000px; background:white; padding:15px; border-radius:5px; box-shadow:0 0 5px rgba(0,0,0,0.1); margin-bottom:30px; }
+    .charts-wrapper { display:flex; flex-wrap:wrap; gap:30px; margin-bottom:30px; }
+    .chart-container { flex:1 1 45%; min-width:300px; }
   </style>
 </head>
 <body>
-  <h1>UK Mobile Network Analysis Report</h1>
+  <h1>UK Mobile Network Dashboard</h1>
 
   <!-- Buttons -->
   <button onclick="showTop3()">Show Top 3 Networks</button>
@@ -76,83 +37,101 @@
         <th>Market Share (%)</th>
         <th>Type</th>
       </tr>
-      <tr style="background-color: #f1c40f;">
-        <td>EE</td>
-        <td>32</td>
-        <td>32%</td>
-        <td>Postpaid & Prepaid</td>
-      </tr>
-      <tr>
-        <td>Vodafone</td>
-        <td>18</td>
-        <td>18%</td>
-        <td>Postpaid & Prepaid</td>
-      </tr>
-      <tr>
-        <td>O2</td>
-        <td>24</td>
-        <td>24%</td>
-        <td>Postpaid & Prepaid</td>
-      </tr>
-      <tr>
-        <td>Three</td>
-        <td>15</td>
-        <td>15%</td>
-        <td>Postpaid & Prepaid</td>
-      </tr>
-      <tr>
-        <td>Sky Mobile</td>
-        <td>2</td>
-        <td>2%</td>
-        <td>Prepaid</td>
-      </tr>
-      <tr>
-        <td>Tesco Mobile</td>
-        <td>5</td>
-        <td>5%</td>
-        <td>Prepaid</td>
-      </tr>
-      <tr>
-        <td>Other / MVNOs</td>
-        <td>4</td>
-        <td>4%</td>
-        <td>Prepaid</td>
-      </tr>
+      <tr class="highlight"><td>EE</td><td>32</td><td>32</td><td>Postpaid & Prepaid</td></tr>
+      <tr><td>Vodafone</td><td>18</td><td>18</td><td>Postpaid & Prepaid</td></tr>
+      <tr><td>O2</td><td>24</td><td>24</td><td>Postpaid & Prepaid</td></tr>
+      <tr><td>Three</td><td>15</td><td>15</td><td>Postpaid & Prepaid</td></tr>
+      <tr><td>Sky Mobile</td><td>2</td><td>2</td><td>Prepaid</td></tr>
+      <tr><td>Tesco Mobile</td><td>5</td><td>5</td><td>Prepaid</td></tr>
+      <tr><td>Other / MVNOs</td><td>4</td><td>4</td><td>Prepaid</td></tr>
     </table>
   </div>
 
   <!-- Analysis -->
   <h2>Analysis</h2>
   <div class="analysis">
-    <p>1. EE is the largest mobile network in the UK with 32 million subscribers, making up about 32% of the market.</p>
-    <p>2. O2 and Vodafone are also major players with 24 and 18 million subscribers, respectively.</p>
-    <p>3. Many users have multiple SIM cards, which is why total subscribers exceed the UK population (~68 million).</p>
-    <p>4. Smaller networks such as Sky Mobile, Tesco Mobile, and other MVNOs serve niche markets, mainly prepaid or value-focused customers.</p>
-    <p>5. The market is competitive, but postpaid & prepaid combined networks dominate overall subscriber numbers.</p>
+    <p>EE is the largest network in the UK with 32 million subscribers.</p>
+    <p>O2 and Vodafone are also major players.</p>
+    <p>Smaller networks mainly serve prepaid or niche markets.</p>
+    <p>Overall, postpaid & prepaid networks dominate the market.</p>
   </div>
 
-  <!-- JavaScript for interactivity -->
+  <!-- Charts -->
+  <h2>Visualizations</h2>
+  <div class="charts-wrapper">
+    <div class="chart-container"><canvas id="pieChart"></canvas></div>
+    <div class="chart-container"><canvas id="barChart"></canvas></div>
+    <div class="chart-container"><canvas id="typeChart"></canvas></div>
+    <div class="chart-container"><canvas id="trendChart"></canvas></div>
+  </div>
+
+  <!-- JavaScript -->
   <script>
+    // Buttons functionality
     function showTop3() {
       let rows = document.querySelectorAll("table tr");
-      rows.forEach((row, index) => {
-        if (index > 3) row.style.display = "none"; // show header + top 3 networks
-      });
+      rows.forEach((row,index) => { if(index>3) row.style.display="none"; });
     }
-
     function showAll() {
       let rows = document.querySelectorAll("table tr");
-      rows.forEach(row => row.style.display = ""); // show all rows
+      rows.forEach(row => row.style.display="");
     }
-
     function toggleAnalysis() {
       let analysis = document.querySelector(".analysis");
-      if (analysis.style.display === "none") {
-        analysis.style.display = "block";
-      } else {
-        analysis.style.display = "none";
-      }
+      analysis.style.display = (analysis.style.display==="none")?"block":"none";
     }
+
+    // Chart.js - Market Share Pie
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(pieCtx, {
+      type:'pie',
+      data:{
+        labels:['EE','Vodafone','O2','Three','Sky Mobile','Tesco Mobile','Other'],
+        datasets:[{ data:[32,18,24,15,2,5,4],
+                    backgroundColor:['#f1c40f','#e74c3c','#3498db','#1abc9c','#9b59b6','#f39c12','#95a5a6'] }]
+      },
+      options:{ responsive:true, plugins:{ legend:{ position:'bottom' } } }
+    });
+
+    // Chart.js - Subscribers Bar
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    const barChart = new Chart(barCtx, {
+      type:'bar',
+      data:{
+        labels:['EE','Vodafone','O2','Three','Sky Mobile','Tesco Mobile','Other'],
+        datasets:[{ label:'Subscribers (millions)', data:[32,18,24,15,2,5,4],
+                    backgroundColor:['#f1c40f','#e74c3c','#3498db','#1abc9c','#9b59b6','#f39c12','#95a5a6'],
+                    borderRadius:5 }]
+      },
+      options:{ responsive:true, plugins:{ tooltip:{enabled:true} }, scales:{ y:{ beginAtZero:true } } }
+    });
+
+    // Network Type Pie Chart
+    const typeCtx = document.getElementById('typeChart').getContext('2d');
+    const typeChart = new Chart(typeCtx, {
+      type:'pie',
+      data:{
+        labels:['Postpaid & Prepaid','Prepaid Only'],
+        datasets:[{ data:[89,11], backgroundColor:['#2ecc71','#e67e22'] }]
+      },
+      options:{ responsive:true, plugins:{ legend:{ position:'bottom' } } }
+    });
+
+    // Subscriber Growth Trend Line
+    const trendCtx = document.getElementById('trendChart').getContext('2d');
+    const trendChart = new Chart(trendCtx, {
+      type:'line',
+      data:{
+        labels:['2021','2022','2023','2024'],
+        datasets:[
+          { label:'EE', data:[28,30,31,32], borderColor:'#f1c40f', fill:false, tension:0.3, pointRadius:5 },
+          { label:'Vodafone', data:[16,17,18,18], borderColor:'#e74c3c', fill:false, tension:0.3, pointRadius:5 },
+          { label:'O2', data:[20,22,23,24], borderColor:'#3498db', fill:false, tension:0.3, pointRadius:5 },
+          { label:'Three', data:[12,14,15,15], borderColor:'#1abc9c', fill:false, tension:0.3, pointRadius:5 }
+        ]
+      },
+      options:{ responsive:true, plugins:{ tooltip:{enabled:true} }, scales:{ y:{ beginAtZero:true } } }
+    });
   </script>
 </body>
 </html>
