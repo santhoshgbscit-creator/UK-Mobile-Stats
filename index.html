@@ -10,6 +10,11 @@
     h1, h2 {
       color: #2c3e50;
     }
+    button {
+      margin-right: 10px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
     table {
       border-collapse: collapse;
       width: 50%;
@@ -27,35 +32,81 @@
     tr:nth-child(even) {
       background-color: #ecf0f1;
     }
+    tr:hover {
+      background-color: #d6eaf8;
+    }
     .analysis {
       max-width: 600px;
     }
   </style>
 </head>
 <body>
-  <!-- Slide 1: Subscriber Table -->
   <h1>UK Mobile Network Subscribers</h1>
+
+  <!-- Buttons for interactivity -->
+  <button onclick="showTop3()">Show Top 3 Networks</button>
+  <button onclick="showAll()">Show All Networks</button>
+  <button onclick="toggleAnalysis()">Show/Hide Analysis</button>
+
+  <!-- Table -->
   <table>
     <tr>
       <th>Network</th>
       <th>Subscribers (millions)</th>
     </tr>
-    <tr><td>EE</td><td>32</td></tr>
-    <tr><td>Vodafone</td><td>18</td></tr>
-    <tr><td>O2</td><td>24</td></tr>
-    <tr><td>Three</td><td>15</td></tr>
-    <tr><td>Sky Mobile</td><td>2</td></tr>
-    <tr><td>Tesco Mobile</td><td>5</td></tr>
-    <tr><td>Other / MVNOs</td><td>4</td></tr>
+    <tr style="background-color: #f1c40f;">
+      <td>EE</td><td>32</td>
+    </tr>
+    <tr>
+      <td>Vodafone</td><td>18</td>
+    </tr>
+    <tr>
+      <td>O2</td><td>24</td>
+    </tr>
+    <tr>
+      <td>Three</td><td>15</td>
+    </tr>
+    <tr>
+      <td>Sky Mobile</td><td>2</td>
+    </tr>
+    <tr>
+      <td>Tesco Mobile</td><td>5</td>
+    </tr>
+    <tr>
+      <td>Other / MVNOs</td><td>4</td>
+    </tr>
   </table>
 
-  <!-- Slide 2: Analysis -->
+  <!-- Analysis Section -->
   <h2>Rough Analysis</h2>
   <div class="analysis">
     <p>EE is the largest network in the UK, followed by O2 and Vodafone.</p>
-    <p>Many users have multiple SIMs, so the total number of subscribers exceeds the UK population.</p>
-    <p>Smaller networks like Sky Mobile and Tesco Mobile serve niche markets or prepaid users.</p>
-    <p>This table gives a clear overview of the UK mobile market.</p>
+    <p>Many users have multiple SIMs, so total subscribers exceed the UK population.</p>
+    <p>Smaller networks like Sky Mobile and Tesco Mobile serve niche or prepaid markets.</p>
   </div>
+
+  <!-- JavaScript for buttons -->
+  <script>
+    function showTop3() {
+      let rows = document.querySelectorAll("table tr");
+      rows.forEach((row, index) => {
+        if (index > 3) row.style.display = "none"; // show header + top 3 networks
+      });
+    }
+
+    function showAll() {
+      let rows = document.querySelectorAll("table tr");
+      rows.forEach(row => row.style.display = ""); // show all rows
+    }
+
+    function toggleAnalysis() {
+      let analysis = document.querySelector(".analysis");
+      if (analysis.style.display === "none") {
+        analysis.style.display = "block";
+      } else {
+        analysis.style.display = "none";
+      }
+    }
+  </script>
 </body>
 </html>
