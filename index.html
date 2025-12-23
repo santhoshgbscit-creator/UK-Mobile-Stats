@@ -30,7 +30,7 @@
 <!-- Filter Dropdown -->
 <div class="filter-container">
 <label for="networkSelect"><strong>Select Network:</strong></label>
-<select id="networkSelect" onchange="updateDashboard()">
+<select id="networkSelect">
 <option value="all">All Networks</option>
 <option value="EE">EE</option>
 <option value="Vodafone">Vodafone</option>
@@ -44,9 +44,9 @@
 
 <!-- Buttons -->
 <div style="text-align:center;">
-<button onclick="showTop3()">Show Top 3 Networks</button>
-<button onclick="showAll()">Show All Networks</button>
-<button onclick="toggleAnalysis()">Show/Hide Analysis</button>
+<button id="top3Btn">Show Top 3 Networks</button>
+<button id="allBtn">Show All Networks</button>
+<button id="toggleAnalysisBtn">Show/Hide Analysis</button>
 </div>
 
 <!-- Table -->
@@ -60,7 +60,7 @@
 
 <!-- Analysis -->
 <h2>Analysis</h2>
-<div class="analysis">
+<div class="analysis" id="analysisDiv">
 <p>EE is the largest network in the UK with 32 million subscribers.</p>
 <p>O2 and Vodafone are major players with significant market shares.</p>
 <p>Smaller networks mainly target prepaid and niche customers.</p>
@@ -77,6 +77,8 @@
 </div>
 
 <script>
+window.onload = function(){
+
 // Network Data
 const networkData = [
 {name:"EE", subscribers:32, market:32, type:"Postpaid & Prepaid"},
@@ -87,6 +89,14 @@ const networkData = [
 {name:"Tesco Mobile", subscribers:5, market:5, type:"Prepaid"},
 {name:"Other", subscribers:4, market:4, type:"Prepaid"}
 ];
+
+// Get DOM elements
+const table = document.getElementById("networkTable");
+const networkSelect = document.getElementById("networkSelect");
+const analysisDiv = document.getElementById("analysisDiv");
+const top3Btn = document.getElementById("top3Btn");
+const allBtn = document.getElementById("allBtn");
+const toggleAnalysisBtn = document.getElementById("toggleAnalysisBtn");
 
 // Initialize Charts
 const pieCtx = document.getElementById('pieChart').getContext('2d');
@@ -103,28 +113,24 @@ const trendChart = new Chart(trendCtx,{type:'line', data:{labels:['2021','2022',
 {label:'Three', data:[12,14,15,15], borderColor:'#1abc9c', fill:false, tension:0.3, pointRadius:5}
 ]} , options:{responsive:true, scales:{y:{beginAtZero:true}}}});
 
-// Update Dashboard
+// Update Dashboard Function
 function updateDashboard(){
-const select = document.getElementById("networkSelect");
-const selected = select.value;
+let selected = networkSelect.value;
 let filtered = (selected==="all")?networkData:networkData.filter(n=>n.name===selected);
 
 // Update Table
-const table = document.getElementById("networkTable");
-table.innerHTML=`<tr>
-<th>Network</th><th>Subscribers (millions)</th><th>Market Share (%)</th><th>Type</th>
-</tr>`;
+table.innerHTML=<tr><th>Network</th><th>Subscribers (millions)</th><th>Market Share (%)</th><th>Type</th></tr>;
 filtered.forEach(n=>{
-const row=document.createElement("tr");
+let row=document.createElement("tr");
 if(n.name==="EE") row.classList.add("highlight");
 row.innerHTML=<td>${n.name}</td><td>${n.subscribers}</td><td>${n.market}</td><td>${n.type}</td>;
 table.appendChild(row);
 });
 
-// Update Pie and Bar Charts
+// Update Pie & Bar Charts
 const labels = filtered.map(n=>n.name);
 const subs = filtered.map(n=>n.subscribers);
-const colors = ['#f1c40f','#e74c3c','#3498db','#1abc9c','#9b59b6','#f39c12','#95a5a6'].slice(0, filtered.length);
+const colors = ['#f1c40f','#e74c3c','#3498db','#1abc9c','#9b59b6','#f39c12','#95a5a6'].slice(0,filtered.length);
 
 pieChart.data.labels = labels;
 pieChart.data.datasets[0].data = subs;
@@ -136,20 +142,30 @@ barChart.data.datasets[0].data = subs;
 barChart.data.datasets[0].backgroundColor = colors;
 barChart.update();
 
-// Update Network Type Chart
+// Update Type Chart
 const postpaid = filtered.filter(n=>n.type.includes("Postpaid")).reduce((a,b)=>a+b.subscribers,0);
 const prepaid = filtered.filter(n=>n.type==="Prepaid").reduce((a,b)=>a+b.subscribers,0);
 typeChart.data.datasets[0].data = [postpaid,prepaid];
 typeChart.update();
 }
 
-// Buttons
-function showTop3(){const table=document.getElementById("networkTable"); const rows=table.querySelectorAll("tr"); rows.forEach((row,index)=>{if(index>3) row.style.display="none";});}
-function showAll(){updateDashboard();}
-function toggleAnalysis(){const analysis=document.querySelector(".analysis"); analysis.style.display=(analysis.style.display==="none")?"block":"none";}
+// Button Events
+top3Btn.onclick = function(){
+const rows = table.querySelectorAll("tr");
+rows.forEach((row,index)=>{if(index>3) row.style.display="none";});
+}
+allBtn.onclick = function(){updateDashboard();}
+toggleAnalysisBtn.onclick = function(){
+analysisDiv.style.display = (analysisDiv.style.display==="none")?"block":"none";
+}
+
+// Dropdown Event
+networkSelect.onchange = updateDashboard;
 
 // Initial Load
 updateDashboard();
+
+};
 </script>
 
 </body>
