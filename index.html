@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>UK Telecom Pulse</title>
+  <title>UK Telecom Pulse Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -9,9 +9,14 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f5f6fa;
+      transition: 0.3s;
     }
 
-    /* HEADER */
+    body.dark {
+      background: #121212;
+      color: #ffffff;
+    }
+
     .header {
       background: #5f259f;
       color: white;
@@ -19,53 +24,17 @@
       text-align: center;
     }
 
-    .header h1 {
-      margin: 0;
-    }
-
-    /* CONTAINER */
     .container {
-      padding: 20px;
       max-width: 1200px;
       margin: auto;
-    }
-
-    /* CARD */
-    .card {
-      background: white;
-      border-radius: 10px;
       padding: 20px;
-      margin-bottom: 25px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
 
-    h2 {
-      color: #2c3e50;
-      margin-top: 0;
-    }
-
-    /* TABLE */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 12px;
+    .controls {
       text-align: center;
-      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
     }
 
-    th {
-      background: #ede7f6;
-      color: #5f259f;
-    }
-
-    tr:hover {
-      background: #f3f0fa;
-    }
-
-    /* BUTTON */
     button {
       background: #5f259f;
       color: white;
@@ -73,14 +42,46 @@
       padding: 10px 16px;
       border-radius: 6px;
       cursor: pointer;
-      margin-top: 10px;
+      margin: 5px;
     }
 
     button:hover {
       background: #4b1d7a;
     }
 
-    /* GRID */
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    body.dark .card {
+      background: #1f1f1f;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background: #ede7f6;
+      color: #5f259f;
+    }
+
+    body.dark th {
+      background: #2a2a2a;
+      color: white;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -103,10 +104,16 @@
 
 <div class="header">
   <h1>UK Telecom Pulse</h1>
-  <p>Subscriber & Market Insights</p>
+  <p>Subscriber & Market Analysis</p>
 </div>
 
 <div class="container">
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <button onclick="toggleDark()">🌙 Dark Mode</button>
+    <button onclick="downloadReport()">⬇ Download Report</button>
+  </div>
 
   <!-- OVERVIEW -->
   <div class="card">
@@ -129,9 +136,9 @@
   <!-- INSIGHTS -->
   <div class="card">
     <h2>Key Insights</h2>
-    <p>• EE dominates the UK telecom market with strong 4G/5G coverage.</p>
-    <p>• O2 and Vodafone remain competitive in urban regions.</p>
-    <p>• MVNOs focus on affordability rather than infrastructure.</p>
+    <p>• EE leads the UK telecom market with strong 5G rollout.</p>
+    <p>• O2 and Vodafone remain strong competitors.</p>
+    <p>• MVNOs focus on budget-conscious customers.</p>
   </div>
 
   <!-- CHARTS -->
@@ -151,13 +158,39 @@
 
   <!-- GROWTH -->
   <div class="card">
-    <h2>Growth Trend (EE)</h2>
+    <h2>EE Growth Trend</h2>
     <canvas id="lineChart"></canvas>
   </div>
 
 </div>
 
 <script>
+  function toggleDark() {
+    document.body.classList.toggle("dark");
+  }
+
+  function downloadReport() {
+    const text =
+`UK Telecom Pulse Report
+
+EE: 32M subscribers
+O2: 24M subscribers
+Vodafone: 18M subscribers
+Three: 15M subscribers
+Tesco: 5M subscribers
+Sky: 2M subscribers
+
+Insights:
+EE leads the UK telecom market with strong network coverage.`;
+
+    const blob = new Blob([text], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "UK_Telecom_Report.txt";
+    link.click();
+  }
+
+  // Charts
   new Chart(barChart, {
     type: "bar",
     data: {
