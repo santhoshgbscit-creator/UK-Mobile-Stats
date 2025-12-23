@@ -102,6 +102,12 @@
 </div>
 
 <div class="container">
+  <div class="card">
+  <button onclick="document.getElementById('tableSection').style.display='block'">Show Table</button>
+  <button onclick="document.getElementById('chartsSection').style.display='block'">Show Charts</button>
+  <button onclick="document.getElementById('analysisSection').style.display='block'">Show Analysis</button>
+</div>
+
 
   <!-- BUTTONS -->
   <div class="buttons">
@@ -141,19 +147,19 @@
   </div>
 
   <!-- CHARTS -->
-  <div id="chartSection">
-    <div class="grid">
-      <div class="card">
-        <h2>Subscribers by Network</h2>
-        <canvas id="barChart"></canvas>
-      </div>
-
-      <div class="card">
-        <h2>Market Share</h2>
-        <canvas id="pieChart"></canvas>
-      </div>
-    </div>
+ <!-- CHARTS -->
+<div class="grid" id="chartsSection" style="display:none">
+  <div class="card">
+    <h2>Subscribers by Network</h2>
+    <canvas id="barChart"></canvas>
   </div>
+
+  <div class="card">
+    <h2>Market Share</h2>
+    <canvas id="pieChart"></canvas>
+  </div>
+</div>
+
 
   <!-- ANALYSIS -->
   <div class="card" id="analysisSection">
