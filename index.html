@@ -9,12 +9,6 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f5f6fa;
-      transition: 0.3s;
-    }
-
-    body.dark {
-      background: #121212;
-      color: #ffffff;
     }
 
     .header {
@@ -30,25 +24,6 @@
       padding: 20px;
     }
 
-    .controls {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    button {
-      background: #5f259f;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin: 5px;
-    }
-
-    button:hover {
-      background: #4b1d7a;
-    }
-
     .card {
       background: white;
       padding: 20px;
@@ -57,8 +32,8 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
 
-    body.dark .card {
-      background: #1f1f1f;
+    h2 {
+      color: #2c3e50;
     }
 
     table {
@@ -75,11 +50,6 @@
     th {
       background: #ede7f6;
       color: #5f259f;
-    }
-
-    body.dark th {
-      background: #2a2a2a;
-      color: white;
     }
 
     .grid {
@@ -104,26 +74,16 @@
 
 <div class="header">
   <h1>UK Telecom Pulse</h1>
-  <p>Subscriber & Market Analysis</p>
+  <p>Comprehensive Subscriber & Market Analysis</p>
 </div>
 
 <div class="container">
-
-  <!-- CONTROLS -->
-  <div class="controls">
-    <button onclick="toggleDark()">🌙 Dark Mode</button>
-    <button onclick="downloadReport()">⬇ Download Report</button>
-  </div>
 
   <!-- OVERVIEW -->
   <div class="card">
     <h2>Subscriber Overview</h2>
     <table>
-      <tr>
-        <th>Network</th>
-        <th>Subscribers (Millions)</th>
-        <th>Market Share %</th>
-      </tr>
+      <tr><th>Network</th><th>Subscribers (M)</th><th>Market Share</th></tr>
       <tr><td>EE</td><td>32</td><td>32%</td></tr>
       <tr><td>O2</td><td>24</td><td>24%</td></tr>
       <tr><td>Vodafone</td><td>18</td><td>18%</td></tr>
@@ -133,64 +93,62 @@
     </table>
   </div>
 
-  <!-- INSIGHTS -->
+  <!-- NETWORK DETAILS -->
   <div class="card">
-    <h2>Key Insights</h2>
-    <p>• EE leads the UK telecom market with strong 5G rollout.</p>
-    <p>• O2 and Vodafone remain strong competitors.</p>
-    <p>• MVNOs focus on budget-conscious customers.</p>
+    <h2>Network-wise Analysis</h2>
+    <p><b>EE:</b> Market leader with strong 4G and fastest 5G coverage.</p>
+    <p><b>O2:</b> Known for wide rural coverage and enterprise clients.</p>
+    <p><b>Vodafone:</b> Strong international roaming and business services.</p>
+    <p><b>Three:</b> Popular among youth and data-heavy users.</p>
+    <p><b>MVNOs:</b> Focus on cost-effective plans.</p>
   </div>
 
   <!-- CHARTS -->
   <div class="grid">
-
     <div class="card">
       <h2>Subscriber Distribution</h2>
       <canvas id="barChart"></canvas>
     </div>
-
     <div class="card">
       <h2>Market Share</h2>
       <canvas id="pieChart"></canvas>
     </div>
-
   </div>
 
-  <!-- GROWTH -->
+  <!-- TECHNOLOGY -->
   <div class="card">
-    <h2>EE Growth Trend</h2>
-    <canvas id="lineChart"></canvas>
+    <h2>Technology Distribution</h2>
+    <p>• 5G adoption is highest in EE and Vodafone.</p>
+    <p>• 4G remains dominant across all networks.</p>
+    <p>• 2G usage is minimal and declining.</p>
+  </div>
+
+  <!-- CUSTOMER SEGMENTS -->
+  <div class="card">
+    <h2>Customer Segments</h2>
+    <p>• Urban users prefer high-speed 5G services.</p>
+    <p>• Rural users prioritize network coverage.</p>
+    <p>• Budget users choose MVNOs.</p>
+  </div>
+
+  <!-- LIMITATIONS -->
+  <div class="card">
+    <h2>Assumptions & Limitations</h2>
+    <p>• Subscriber data is approximate.</p>
+    <p>• Growth rates are estimated.</p>
+    <p>• MVNO data is aggregated.</p>
+  </div>
+
+  <!-- CONCLUSION -->
+  <div class="card">
+    <h2>Conclusion</h2>
+    <p>The UK telecom market is mature and competitive.</p>
+    <p>Future growth depends on 5G expansion and service innovation.</p>
   </div>
 
 </div>
 
 <script>
-  function toggleDark() {
-    document.body.classList.toggle("dark");
-  }
-
-  function downloadReport() {
-    const text =
-`UK Telecom Pulse Report
-
-EE: 32M subscribers
-O2: 24M subscribers
-Vodafone: 18M subscribers
-Three: 15M subscribers
-Tesco: 5M subscribers
-Sky: 2M subscribers
-
-Insights:
-EE leads the UK telecom market with strong network coverage.`;
-
-    const blob = new Blob([text], { type: "text/plain" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "UK_Telecom_Report.txt";
-    link.click();
-  }
-
-  // Charts
   new Chart(barChart, {
     type: "bar",
     data: {
@@ -207,22 +165,9 @@ EE leads the UK telecom market with strong network coverage.`;
     type: "pie",
     data: {
       labels: ["EE","O2","Vodafone","Three","Others"],
-      datasets: [{
+        datasets: [{
         data: [32,24,18,15,11],
         backgroundColor: ["#5f259f","#7e57c2","#9575cd","#b39ddb","#d1c4e9"]
-      }]
-    }
-  });
-
-  new Chart(lineChart, {
-    type: "line",
-    data: {
-      labels: ["2020","2021","2022","2023","2024"],
-      datasets: [{
-        label: "EE Subscribers (M)",
-        data: [26,28,30,31,32],
-        borderColor: "#5f259f",
-        fill: false
       }]
     }
   });
