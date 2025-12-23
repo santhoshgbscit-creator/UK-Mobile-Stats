@@ -8,13 +8,13 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f5f6fa;
+      background: #f4f6fb;
     }
 
     .header {
       background: #5f259f;
       color: white;
-      padding: 20px;
+      padding: 25px;
       text-align: center;
     }
 
@@ -22,6 +22,25 @@
       max-width: 1200px;
       margin: auto;
       padding: 20px;
+    }
+
+    .buttons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 16px;
+      margin: 5px;
+      background: #7e57c2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #5f259f;
     }
 
     .card {
@@ -39,6 +58,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 10px;
     }
 
     th, td {
@@ -50,6 +70,10 @@
     th {
       background: #ede7f6;
       color: #5f259f;
+    }
+
+    tr:hover {
+      background: #f3e5f5;
     }
 
     .grid {
@@ -74,16 +98,27 @@
 
 <div class="header">
   <h1>UK Telecom Pulse</h1>
-  <p>Comprehensive Subscriber & Market Analysis</p>
+  <p>Subscriber & Market Analysis Dashboard</p>
 </div>
 
 <div class="container">
 
-  <!-- OVERVIEW -->
-  <div class="card">
+  <!-- BUTTONS -->
+  <div class="buttons">
+    <button onclick="toggleSection('tableSection')">Show / Hide Table</button>
+    <button onclick="toggleSection('chartSection')">Show / Hide Charts</button>
+    <button onclick="toggleSection('analysisSection')">Show / Hide Analysis</button>
+  </div>
+
+  <!-- TABLE -->
+  <div class="card" id="tableSection">
     <h2>Subscriber Overview</h2>
     <table>
-      <tr><th>Network</th><th>Subscribers (M)</th><th>Market Share</th></tr>
+      <tr>
+        <th>Network</th>
+        <th>Subscribers (Millions)</th>
+        <th>Market Share</th>
+      </tr>
       <tr><td>EE</td><td>32</td><td>32%</td></tr>
       <tr><td>O2</td><td>24</td><td>24%</td></tr>
       <tr><td>Vodafone</td><td>18</td><td>18%</td></tr>
@@ -93,82 +128,76 @@
     </table>
   </div>
 
-  <!-- NETWORK DETAILS -->
-  <div class="card">
-    <h2>Network-wise Analysis</h2>
-    <p><b>EE:</b> Market leader with strong 4G and fastest 5G coverage.</p>
-    <p><b>O2:</b> Known for wide rural coverage and enterprise clients.</p>
-    <p><b>Vodafone:</b> Strong international roaming and business services.</p>
-    <p><b>Three:</b> Popular among youth and data-heavy users.</p>
-    <p><b>MVNOs:</b> Focus on cost-effective plans.</p>
-  </div>
-
   <!-- CHARTS -->
-  <div class="grid">
-    <div class="card">
-      <h2>Subscriber Distribution</h2>
-      <canvas id="barChart"></canvas>
+  <div id="chartSection">
+    <div class="grid">
+      <div class="card">
+        <h2>Subscribers by Network</h2>
+        <canvas id="barChart"></canvas>
+      </div>
+
+      <div class="card">
+        <h2>Market Share</h2>
+        <canvas id="pieChart"></canvas>
+      </div>
     </div>
-    <div class="card">
-      <h2>Market Share</h2>
-      <canvas id="pieChart"></canvas>
-    </div>
   </div>
 
-  <!-- TECHNOLOGY -->
-  <div class="card">
-    <h2>Technology Distribution</h2>
-    <p>• 5G adoption is highest in EE and Vodafone.</p>
-    <p>• 4G remains dominant across all networks.</p>
-    <p>• 2G usage is minimal and declining.</p>
-  </div>
-
-  <!-- CUSTOMER SEGMENTS -->
-  <div class="card">
-    <h2>Customer Segments</h2>
-    <p>• Urban users prefer high-speed 5G services.</p>
-    <p>• Rural users prioritize network coverage.</p>
-    <p>• Budget users choose MVNOs.</p>
-  </div>
-
-  <!-- LIMITATIONS -->
-  <div class="card">
-    <h2>Assumptions & Limitations</h2>
-    <p>• Subscriber data is approximate.</p>
-    <p>• Growth rates are estimated.</p>
-    <p>• MVNO data is aggregated.</p>
-  </div>
-
-  <!-- CONCLUSION -->
-  <div class="card">
-    <h2>Conclusion</h2>
-    <p>The UK telecom market is mature and competitive.</p>
-    <p>Future growth depends on 5G expansion and service innovation.</p>
+  <!-- ANALYSIS -->
+  <div class="card" id="analysisSection">
+    <h2>Analysis</h2>
+    <p><b>EE</b> leads the UK market with the highest subscribers and strong 5G coverage.</p>
+    <p><b>O2</b> performs well in rural and enterprise segments.</p>
+    <p><b>Vodafone</b> focuses on business and international services.</p>
+    <p><b>Three</b> attracts young users with data-heavy plans.</p>
+    <p><b>MVNOs</b> like Tesco and Sky target budget customers.</p>
   </div>
 
 </div>
 
 <script>
-  new Chart(barChart, {
+  function toggleSection(id) {
+    const section = document.getElementById(id);
+    section.style.display =
+      section.style.display === "none" ? "block" : "none";
+  }
+
+  new Chart(document.getElementById("barChart"), {
     type: "bar",
     data: {
       labels: ["EE","O2","Vodafone","Three","Tesco","Sky"],
       datasets: [{
         label: "Subscribers (Millions)",
         data: [32,24,18,15,5,2],
-        backgroundColor: "#7e57c2"
+        backgroundColor: "#7e57c2",
+        borderRadius: 6
       }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true }
+      }
     }
   });
 
-  new Chart(pieChart, {
+  new Chart(document.getElementById("pieChart"), {
     type: "pie",
     data: {
       labels: ["EE","O2","Vodafone","Three","Others"],
-        datasets: [{
+      datasets: [{
         data: [32,24,18,15,11],
-        backgroundColor: ["#5f259f","#7e57c2","#9575cd","#b39ddb","#d1c4e9"]
+        backgroundColor: [
+          "#5f259f",
+          "#7e57c2",
+          "#9575cd",
+          "#b39ddb",
+          "#d1c4e9"
+        ]
       }]
+    },
+    options: {
+      responsive: true
     }
   });
 </script>
