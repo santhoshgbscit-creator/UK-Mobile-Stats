@@ -2,46 +2,60 @@
 <html>
 <head>
   <title>UK Mobile Network Stats</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    table {
+      border-collapse: collapse;
+      width: 50%;
+      margin-bottom: 30px;
+    }
+    th, td {
+      border: 1px solid #2c3e50;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #ecf0f1;
+    }
+    .analysis {
+      max-width: 600px;
+    }
+  </style>
 </head>
 <body>
-  <h1>UK Mobile Network Subscriber Data</h1>
-
-  <table border="1" cellpadding="5" cellspacing="0">
+  <!-- Slide 1: Subscriber Table -->
+  <h1>UK Mobile Network Subscribers</h1>
+  <table>
     <tr>
       <th>Network</th>
       <th>Subscribers (millions)</th>
     </tr>
-    <tr>
-      <td>EE</td>
-      <td>32</td>
-    </tr>
-    <tr>
-      <td>Vodafone</td>
-      <td>18</td>
-    </tr>
-    <tr>
-      <td>O2</td>
-      <td>24</td>
-    </tr>
-    <tr>
-      <td>Three</td>
-      <td>15</td>
-    </tr>
-    <tr>
-      <td>Sky Mobile</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>Tesco Mobile</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <td>Other / MVNOs</td>
-      <td>4</td>
-    </tr>
+    <tr><td>EE</td><td>32</td></tr>
+    <tr><td>Vodafone</td><td>18</td></tr>
+    <tr><td>O2</td><td>24</td></tr>
+    <tr><td>Three</td><td>15</td></tr>
+    <tr><td>Sky Mobile</td><td>2</td></tr>
+    <tr><td>Tesco Mobile</td><td>5</td></tr>
+    <tr><td>Other / MVNOs</td><td>4</td></tr>
   </table>
 
+  <!-- Slide 2: Analysis -->
   <h2>Rough Analysis</h2>
-  <p>EE is the largest network in the UK, followed by O2 and Vodafone. Many users have multiple SIMs, which is why the total exceeds the UK population. Smaller networks like Sky Mobile and Tesco Mobile serve niche or prepaid markets.</p>
+  <div class="analysis">
+    <p>EE is the largest network in the UK, followed by O2 and Vodafone.</p>
+    <p>Many users have multiple SIMs, so the total number of subscribers exceeds the UK population.</p>
+    <p>Smaller networks like Sky Mobile and Tesco Mobile serve niche markets or prepaid users.</p>
+    <p>This table gives a clear overview of the UK mobile market.</p>
+  </div>
 </body>
 </html>
